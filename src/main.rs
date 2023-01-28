@@ -9,7 +9,6 @@ fn main(){
 			f_to_c_main();
 		} else if  option == 2 {
 			fibb_main();
-			ask_exit();
 		} else if option == 3 {
 			print_song();
 		}
@@ -60,18 +59,8 @@ fn f_to_c_main(){
 
 ///Fibonacci
 fn fibb_main() {
-	starting_msgs();
-	let start = get_number("Please enter the start of the sequence");
-	let max = get_number("Please enter the number of iterations");
-	fibb(start, max, 0, 1);
-}
-
-fn starting_msgs(){
-	//println!("Hello there 👋");
-	println!("This program prints the fibonacci sequence with a given start and number of iterations.");
-	println!("After some iterations the fibonacci sequence goes very high!");
-	println!("This program reaches up to iteration 185. Which is 205697230343233228174223751303346572685");
-	print!("To start ");
+	let n = get_number("Enter the position you want to get");
+	println!("The fibbonacci number in this position is: {}\n", fibb(0, n, 0, 1));
 }
 
 fn get_number(msg: &str)-> u128{
@@ -92,18 +81,14 @@ fn get_number(msg: &str)-> u128{
 	_num
 }
 
-fn fibb(start: u128, mut max: u128, num: u128, next: u128){
+fn fibb(start: u128, mut max: u128, num: u128, next: u128)-> u128{
 	if max > 0 && num <= (u128::MAX - next)
 	{
-		//print once we start
-		if start <= num {
-			println!("{num} ");
-			//print!("{max} ");
-			max = max - 1;
-		}
+		max = max - 1;
 		//recursive call
-		fibb(start, max, next, num+next);
+		return fibb(start, max, next, num+next);
 	}
+	return num;
 }
 
 ///Print Song
