@@ -6,7 +6,7 @@ fn main(){
 		print_start();
 		let option = get_number("");
 		if option == 1 {
-			f_to_c_main();
+			temp_converter_main();
 		} else if  option == 2 {
 			fibb_main();
 		} else if option == 3 {
@@ -39,23 +39,119 @@ fn ask_exit(){
 		.read_line(&mut input)
 		.expect("Failed to read line");
 
-		input.pop(); input.pop();//eliminate whitespace
+		let i = input.trim_end();
 
-		if input == "y" || input == "Y"{
+		if i == "y" || i == "Y"{
 			exit(0);
 		}
-		if input == "n" || input == "N"{
+		if i == "n" || i == "N"{
 			break;
 		}
 	}
 	
 }
 
-///F to C
-fn f_to_c_main(){
-
+///Temperature converter
+fn temp_converter_main(){
+	println!("This program will convert the temperature entered into other temperatures units");
+	println!("Enter the unit you want to convert");
+	println!("Finish with the unit you want to convert (for ex C is for Celcius)");
+	calculate_and_print(read_temp());
 }
 
+fn read_temp() -> f32
+{
+	//TODO: revert the transformation from X unit to Celcius (they are upside down)
+	loop{
+		let mut line = String::new();
+		io::stdin()
+		.read_line(&mut line)
+		.expect("Failed to read line");
+		let mut l = line.trim_end();
+
+		
+		//Histogram of temperatures
+		//C: Celcius; F: Fahrenheit; K: Kelvins; R: Rankine; De: delisle; N: Newton; Re: Reaumur; Ro: Romer
+		if l.ends_with('C'){
+			l = l.trim_end_matches('C');
+			let n: f32 = match l.trim().parse::<f32>() {
+				Ok(num) => num,
+				Err(_) => {println!("Please type a valid temperature format!"); continue;},
+        			};
+			return n;
+		} else if l.ends_with('F'){
+			l = l.trim_end_matches('F');
+			let n: f32 = match l.trim().parse::<f32>() {
+				Ok(num) => (num-32.00)/1.8,
+				Err(_) => {println!("Please type a valid temperature format!"); continue;},
+        			};
+			return n;
+		} else if l.ends_with('K'){
+			l = l.trim_end_matches('K');
+			let n: f32 = match l.trim().parse::<f32>() {
+				Ok(num) => num-273.15,
+				Err(_) => {println!("Please type a valid temperature format!"); continue;},
+        			};
+			return n;
+		}else if l.ends_with('R'){
+			l = l.trim_end_matches('R');
+			let n: f32 = match l.trim().parse::<f32>() {
+				Ok(num) => (num-491.67)/1.8 ,
+				Err(_) => {println!("Please type a valid temperature format!"); continue;},
+        			};
+			return n;
+		} else if l.ends_with("De"){
+			l = l.trim_end_matches("De");
+			let n: f32 = match l.trim().parse::<f32>() {
+				Ok(num) => (num- 150.00)/(-1.5) ,
+				Err(_) => {println!("Please type a valid temperature format!"); continue;},
+        			};
+			return n;
+		} else if l.ends_with('N') {
+			l = l.trim_end_matches('N');
+			let n: f32 = match l.trim().parse::<f32>() {
+				Ok(num) => num/0.33,
+				Err(_) => {println!("Please type a valid temperature format!"); continue;},
+        			};
+			return n;
+		} else if l.ends_with("Re") {
+			l = l.trim_end_matches("Re");
+			let n: f32 = match l.trim().parse::<f32>() {
+				Ok(num) => num/0.8,
+				Err(_) => {println!("Please type a valid temperature format!"); continue;},
+        			};
+			return n;
+		} else if l.ends_with("Ro") {
+			l = l.trim_end_matches("Ro");
+			let n: f32 = match l.trim().parse::<f32>() {
+				Ok(num) => (num-7.5)/0.525,
+				Err(_) => {println!("Please type a valid temperature format!"); continue;},
+        			};
+			return n;
+		}
+		println!("Please make sure that the temperature ends with the valid unit");
+		println!("Here's the histogram that this program understands: \n");
+		println!("C: Celcius; F: Fahrenheit; K: Kelvins; R: Rankine; De: delisle; N: Newton; Re: Reaumur; Ro: Romer\n");
+		println!("Now please enter the temperature again with a valid format: ");
+	}
+}
+
+fn calculate_and_print(c: f32)
+{
+	//Histogram of temperatures
+	//C: Celcius; F: Fahrenheit; K: Kelvins; R: Rankine; De: delisle; N: Newton; Re: Reaumur; Ro: Romer
+
+	println!("\n");
+	println!("Celcius: {}ºC", c);
+	println!("Fahrenheit: {}ºF", c*1.8+32.00);
+	println!("Kelvins: {}ºK", c+273.15 );
+	println!("Rankine: {}ºR", c*1.8+491.67  );
+	println!("Delisle: {}ºDe", c*(-1.5)+150.00 );
+	println!("Newton: {}ºN", c*0.33 );
+	println!("Reaumur: {}ºRe", c*0.8 );
+	println!("Romer: {}ºRo", c*0.525+7.5 );
+	println!("\n");
+}
 
 ///Fibonacci
 fn fibb_main() {
