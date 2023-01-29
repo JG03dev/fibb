@@ -26,7 +26,7 @@ fn print_start(){
 	1. Convert temperatures between Fahrenheit and Celsius. \n
 	2. Generate the nth Fibonacci number. \n
 	3. Print the lyrics to the Christmas carol “The Twelve Days of Christmas,” taking advantage of the repetition in the song. \n
-	- Any other number else to exit.
+	- Any other number to exit.
       ");
 	print!("Your choice: ");	
 }
@@ -189,5 +189,33 @@ fn fibb(start: u128, mut max: u128, num: u128, next: u128)-> u128{
 
 ///Print Song
 fn print_song(){
+	let lyrics = ["Twelve drummers drumming",
+	"Eleven pipers piping",
+	"Ten lords a-leaping",
+	"Nine ladies dancing",
+	"Eight maids a-milking",
+	"Seven swans a-swimming",
+	"Six geese a-laying",
+	"Five golden rings",
+	"Four calling birds",
+	"Three french hens",
+	"Two turtle doves, and",
+	"A partridge in a pear tree"];
+	let days = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eight", "ninth", "tenth", "eleventh", "twelfth"];
+	let mut i = 1;
+	for n in days
+	{
+		println!("On the {} day of Christmas, my true love sent to me", n);
+		recursive_print(&lyrics, i);
+		print!("\n");
+		i += 1;
+	}
+}
 
+fn recursive_print(arr: &[&str], level: usize) {
+	if level == 0 {
+		return;
+	}
+	println!("{}", &arr[arr.len() - level]);	
+	recursive_print(arr, level - 1);
 }
