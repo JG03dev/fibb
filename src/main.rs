@@ -1,5 +1,7 @@
 use std::io;
 use std::process::exit;
+use std::{thread, time};
+
 
 fn main(){
 	loop{
@@ -23,7 +25,7 @@ fn print_start(){
 	println!("This is an Open Source Project I use to upload my exercises while learning the Rust Programming Language.");
 	println!("To start choose one of these different games");
 	println!("
-	1. Convert temperatures between Fahrenheit and Celsius. \n
+	1. Print the conversion of all temperature units from one temperature as input. \n
 	2. Generate the nth Fibonacci number. \n
 	3. Print the lyrics to the Christmas carol “The Twelve Days of Christmas,” taking advantage of the repetition in the song. \n
 	- Any other number to exit.
@@ -61,7 +63,6 @@ fn temp_converter_main(){
 
 fn read_temp() -> f32
 {
-	//TODO: revert the transformation from X unit to Celcius (they are upside down)
 	loop{
 		let mut line = String::new();
 		io::stdin()
@@ -203,10 +204,12 @@ fn print_song(){
 	"A partridge in a pear tree"];
 	let days = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eight", "ninth", "tenth", "eleventh", "twelfth"];
 	let mut i = 1;
+	let sec = time::Duration::from_secs(2);
 	for n in days
 	{
 		println!("On the {} day of Christmas, my true love sent to me", n);
 		recursive_print(&lyrics, i);
+		thread::sleep(sec);
 		print!("\n");
 		i += 1;
 	}
